@@ -1,0 +1,14 @@
+{
+  "name": "ichon-express-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Time Ruchutrakool",
+  "license": "ISC",
+  "devDependencies": {
+    "prisma": "^5.4.2"
+  }
+}
