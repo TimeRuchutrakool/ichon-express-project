@@ -9,3 +9,120 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  firstName String     @map("first_name")
+  lastName  String     @map("last_name")
+  phone     String
+  email     String     @unique
+  password  String
+  createdAt DateTime   @default(now()) @map("created_at")
+  address   String?
+  role      Role       @default(CUSTOMER)
+  WishItem  WishItem[]
+  Cart      Cart[]
+  Order     Order[]
+
+  @@map("users")
+}
+
+model WishItem {
+  id        Int     @id @default(autoincrement())
+  user      User    @relation(fields: [userId], references: [id])
+  userId    Int
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+
+  @@map("wish_items")
+}
+
+model Cart {
+  id        Int     @id @default(autoincrement())
+  quantity  Int
+  user      User    @relation(fields: [userId], references: [id])
+  userId    Int
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+
+  @@map("carts")
+}
+
+model Order {
+  id        Int         @id @default(autoincrement())
+  slipUrl   String
+  user      User        @relation(fields: [userId], references: [id])
+  userId    Int
+  status    Status      @relation(fields: [statusId], references: [id])
+  statusId  Int
+  OrderItem OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  quantity  Int
+  order     Order   @relation(fields: [orderId], references: [id])
+  orderId   Int
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+
+  @@map("order_items")
+}
+
+model Status {
+  id    Int     @id @default(autoincrement())
+  name  String
+  Order Order[]
+
+  @@map("status")
+}
+
+model Product {
+  id           Int            @id @default(autoincrement())
+  name         String
+  price        Decimal        @db.Decimal(10, 2)
+  description  String?
+  stock        Int
+  brand        Brand          @relation(fields: [brandId], references: [id])
+  brandId      Int
+  category     Category       @relation(fields: [categoryId], references: [id])
+  categoryId   Int
+  WishItem     WishItem[]
+  Cart         Cart[]
+  OrderItem    OrderItem[]
+  ProductImage ProductImage[]
+
+  @@map("products")
+}
+
+model ProductImage {
+  id        Int     @id @default(autoincrement())
+  imageUrl  String
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+
+  @@map("product_images")
+}
+
+model Brand {
+  id      Int       @id @default(autoincrement())
+  name    String
+  Product Product[]
+
+  @@map("brands")
+}
+
+model Category {
+  id      Int       @id @default(autoincrement())
+  name    String
+  Product Product[]
+
+  @@map("categories")
+}
