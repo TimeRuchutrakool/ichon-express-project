@@ -9,25 +9,34 @@ exports.getTopSalesProducts = catchAsync(async (req, res, next) => {});
 
 exports.addProduct = catchAsync(async (req, res, next) => {
   const { value, error } = productSchema.validate(req.body);
+  //   CHECK BRAND AND CATEGORY IF EXISTS
   if (error) return next(new AppError(error));
-  const { id: brandId } = await prisma.brand.findFirst({
+  let brand = await prisma.brand.findFirst({
     where: { name: value.brandTitle.toUpperCase() },
   });
-  const { id: categoryId } = await prisma.category.findFirst({
+  if (!brand)
+    brand = await prisma.brand.create({
+      data: { name: value.brandTitle.toUpperCase() },
+    });
+  let category = await prisma.category.findFirst({
     where: { name: value.categoryTitle.toUpperCase() },
   });
-
+  if (!category)
+    category = await prisma.category.create({
+      data: { name: value.categoryTitle.toUpperCase() },
+    });
+  // CREATE PRODUCT
   const product = await prisma.product.create({
     data: {
       name: value.name,
       price: value.price,
       description: value.description,
       stock: value.stock,
-      brandId: brandId,
-      categoryId: categoryId,
+      brandId: brand.id,
+      categoryId: category.id,
     },
   });
-
+  // UPLOAD PRODUCT IMAGES
   if (!req.files) return next("Product image is required");
 
   const urls = [];
@@ -43,12 +52,12 @@ exports.addProduct = catchAsync(async (req, res, next) => {
   for (const image of urls) {
     images.push({ imageUrl: image, productId: product.id });
   }
-
+  //   CREATE PRODUCT IMAGE
   await prisma.productImage.createMany({
     data: images,
   });
 
-  res.json({
+  res.status(201).json({
     data: {
       product: product,
       images: images,
