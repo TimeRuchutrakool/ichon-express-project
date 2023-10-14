@@ -153,3 +153,186 @@ exports.users = [
     role: "CUSTOMER",
   },
 ];
+
+exports.productImages = [
+  {
+      "id": 6,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267053/syvzgo3nunsjnvowdegx.webp",
+      "productId": 2
+  },
+  {
+      "id": 7,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267054/uooagrmfsc3ti8xkxem1.webp",
+      "productId": 2
+  },
+  {
+      "id": 8,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267055/a8vopxh3qmgoaycd2rmf.webp",
+      "productId": 2
+  },
+  {
+      "id": 9,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267056/nexvtxwyveivlxp8agkq.webp",
+      "productId": 2
+  },
+  {
+      "id": 10,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267057/sa9k5djlgeftby70jm4k.webp",
+      "productId": 2
+  },
+  {
+      "id": 11,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267344/mn9nrfn48lxv8pmesfcm.webp",
+      "productId": 3
+  },
+  {
+      "id": 12,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267345/jtts1f9ekxiqs0nsoex7.jpg",
+      "productId": 3
+  },
+  {
+      "id": 13,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267346/rq5lrhba8uvk6tbese6l.webp",
+      "productId": 3
+  },
+  {
+      "id": 14,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267347/xvlxc6pwqkbxwmcfg9mu.webp",
+      "productId": 3
+  },
+  {
+      "id": 15,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267477/vwsebd2hdtylqt6awsr8.webp",
+      "productId": 4
+  },
+  {
+      "id": 16,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267479/lt6hnnxedezx8icgpp6n.webp",
+      "productId": 4
+  },
+  {
+      "id": 17,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267480/euxy6vtbbcia0wkryj7m.webp",
+      "productId": 4
+  },
+  {
+      "id": 18,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267482/ympit2vujn2gbaz1xebh.webp",
+      "productId": 4
+  },
+  {
+      "id": 19,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267567/o1a5dndnhxsbtbp3vddi.webp",
+      "productId": 5
+  },
+  {
+      "id": 20,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267569/mg9smdctu5jh20dorzu6.webp",
+      "productId": 5
+  },
+  {
+      "id": 21,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267570/hayannker9qbr8xoleb4.webp",
+      "productId": 5
+  },
+  {
+      "id": 22,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267571/ak1skoydl5l9ghhfbsu2.webp",
+      "productId": 5
+  },
+  {
+      "id": 23,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267572/m5e19q0dfualmgjfwfre.webp",
+      "productId": 5
+  },
+  {
+      "id": 24,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267717/bdrzi6o2ia7ad7iimyec.webp",
+      "productId": 6
+  },
+  {
+      "id": 25,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267718/cumab5lvb7slcrajt2rw.webp",
+      "productId": 6
+  },
+  {
+      "id": 26,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267719/wsdydsvoev8ujznujr9j.webp",
+      "productId": 6
+  },
+  {
+      "id": 27,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267720/brqoybmu4hr7qvpajtt6.webp",
+      "productId": 6
+  },
+  {
+      "id": 28,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267856/fqteuluyrhjgjinbxeet.webp",
+      "productId": 7
+  },
+  {
+      "id": 29,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267857/g2kwms8mr5muhqkcapae.webp",
+      "productId": 7
+  },
+  {
+      "id": 30,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267859/uf5y7grnsnaqunvfzz7g.webp",
+      "productId": 7
+  },
+  {
+      "id": 31,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267860/yb7kuccffjexytmf8wyx.webp",
+      "productId": 7
+  },
+  {
+      "id": 32,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267861/me5zwjbpo0qnz6wsvets.webp",
+      "productId": 7
+  },
+  {
+      "id": 33,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267958/vez02fs3fcloarvv84ov.webp",
+      "productId": 8
+  },
+  {
+      "id": 34,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267959/fnorz7vahmwip3ndzha2.webp",
+      "productId": 8
+  },
+  {
+      "id": 35,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267960/lraeb1l10v7fwucfehlf.webp",
+      "productId": 8
+  },
+  {
+      "id": 36,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267960/wyotlvncettpa536n06k.webp",
+      "productId": 8
+  },
+  {
+      "id": 37,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697267962/bhbatfit4ocjnyy2ygyb.webp",
+      "productId": 8
+  },
+  {
+      "id": 38,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697268577/cn0lztpnoxw71cuiygyo.webp",
+      "productId": 9
+  },
+  {
+      "id": 39,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697268578/sbbjqrvijsv0bouutmwt.webp",
+      "productId": 9
+  },
+  {
+      "id": 40,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697268579/wjh2nufyoeqv7rtri8n8.webp",
+      "productId": 9
+  },
+  {
+      "id": 41,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697268580/u42vutsd6hb3r5hrjk5d.webp",
+      "productId": 9
+  }
+]

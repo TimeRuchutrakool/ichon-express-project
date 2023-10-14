@@ -17,3 +17,7 @@ exports.users = catchAsync(async (req, res, next) => {
   const users = await prisma.user.findMany({});
   res.json({ users });
 });
+exports.productImages = catchAsync(async (req, res, next) => {
+  const productImages = await prisma.productImage.findMany({});
+  res.json({ productImages });
+});

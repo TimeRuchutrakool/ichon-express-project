@@ -1,23 +1,30 @@
-const  PrismaClient  = require("@prisma/client");
-const { products, brands, categories, users } = require("./data");
-
+const { PrismaClient } = require("@prisma/client");
+const {
+  products,
+  brands,
+  categories,
+  users,
+  productImages,
+} = require("./data");
 
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.product.createMany({ data: products });
   await prisma.brand.createMany({ data: brands });
   await prisma.category.createMany({ data: categories });
   await prisma.user.createMany({ data: users });
+  await prisma.product.createMany({ data: products });
+  await prisma.productImage.createMany({ data: productImages });
 }
 
 main()
-  .catch((e) => {
-    console.log(e);
-    process.exit(1);
+  .then(async () => {
+    await prisma.$disconnect();
   })
-  .finally(() => {
-    prisma.$disconnect();
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
   });
 
-//   npx prisma db seed 
+//   npx prisma db seed
