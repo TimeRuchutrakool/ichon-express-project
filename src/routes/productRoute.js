@@ -13,6 +13,7 @@ router.post(
   productController.addProduct,
   
 );
+router.route('/:searchedTitle')
 router.route("/top-sales-product").get(productController.getTopSalesProducts);
 
 module.exports = router;

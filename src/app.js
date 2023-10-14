@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const userRouter = require("./routes/userRoute");
 const productRouter = require("./routes/productRoute");
+const seedRouter = require("./routes/seedRoute");
 const AppError = require("./utils/appError");
 const globaErrorHandler = require("./controllers/errorController");
 const app = express();
@@ -11,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/auth", userRouter);
 app.use("/api/product", productRouter);
+app.use('/seed',seedRouter)
 
 app.all("*", (req, res, next) =>
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404))
