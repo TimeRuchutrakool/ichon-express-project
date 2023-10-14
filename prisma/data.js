@@ -1,4 +1,4 @@
-export const products = [
+exports.products = [
   {
     id: 2,
     name: "แท็บเล็ต Samsung Galaxy Tab S6 Lite LTE (4+64) (2022) Oxford Gray",
@@ -81,7 +81,7 @@ export const products = [
   },
 ];
 
-export const brands = [
+exports.brands = [
   {
     id: 1,
     name: "SAMSUNG",
@@ -103,7 +103,7 @@ export const brands = [
     name: "XIAOMI",
   },
 ];
-export const categories = [
+exports.categories = [
   {
     id: 1,
     name: "TABLET",
@@ -129,7 +129,7 @@ export const categories = [
     name: "HEADPHONE",
   },
 ];
-export const users = [
+exports.users = [
   {
     id: 1,
     firstName: "Johny",
