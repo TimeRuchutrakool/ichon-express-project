@@ -10,4 +10,10 @@ LOGIN
 POST /api/auth/login
 BODY email, password
 RESPONSE
-200 { accessToken }
+200 { accessToken: String }
+
+GET AUTHENTICATED USER
+GET /api/auth/me
+HEADER AUTHORIZATION Bearer ACCESS_TOKEN
+RESPONSE
+200 { user: Object }

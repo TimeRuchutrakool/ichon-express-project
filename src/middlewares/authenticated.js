@@ -23,7 +23,6 @@ module.exports = catchAsync(async (req, res, next) => {
   const user = await prisma.user.findFirst({ where: { id: payload.userId } });
   if (!user) return next(new AppError("User does not exist"), 404);
   delete user.password;
-  delete user.role;
   delete user.createdAt;
   req.user = user;
   next();
