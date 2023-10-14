@@ -1,5 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-import { brands, categories, products, users } from "./data";
+const  PrismaClient  = require("@prisma/client");
+const { products, brands, categories, users } = require("./data");
+
 
 const prisma = new PrismaClient();
 
