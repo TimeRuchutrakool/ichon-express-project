@@ -79,6 +79,56 @@ exports.products = [
     brandId: 2,
     categoryId: 6,
   },
+  {
+    id: 10,
+    name: "Apple AirPods Max - Silver",
+    price: "19900",
+    description:
+      "หูฟัง AirPods Max แต่ละข้างมาพร้อมชิพ H1 อันทรงพลังที่ออกแบบโดย Apple รวมถึงดีไซน์อะคูสติกแบบเฉพาะ และซอฟต์แวร์อันล้ำสมัย อีกทั้งยังใช้ระบบเสียงที่ประมวลผลด้วย คอมพิวเตอร์เพื่อสร้างประสบการณ์การฟังสุดล้ำ โดยอาศัยคอร์ประมวลผลเสียง ทั้ง 10 คอร์ในชิพ แต่ละตัวเพื่อช่วยตัดเสียงรบกวนจากภายนอก ปรับเสียงให้เข้ากับความกระชับและแนบสนิทของโฟมรองหูแบบบุนุ่ม ซึ่งทั้งหมดนี้จะทำให้เสียงของฉากในภาพยนตร์รู้สึกราวกับว่ากำลังเกิดขึ้นรอบตัวคุณ",
+    stock: 4,
+    brandId: 2,
+    categoryId: 6,
+  },
+  {
+    id: 11,
+    name: "Apple Watch SE GPS 40mm Space Gray Aluminium Case with Midnight Sport Band - (2022)",
+    price: "6990",
+    description:
+      "มาพร้อมคุณสมบัติอันทรงพลังที่จะช่วยให้คุณต่อติดกับทุกเรื่อง แอ็คทีฟ มีสุขภาพดี และปลอดภัยอยู่เสมอ บอกเลยว่า Apple Watch SE มีอะไรเยอะแยะ ในราคาสบายกระเป๋ากว่าที่คิด",
+    stock: 4,
+    brandId: 2,
+    categoryId: 7,
+  },
+  {
+    id: 12,
+    name: "Apple iPad 10 (2022) Wi-Fi + Cellular 64GB 10.9 inch Silver",
+    price: "23900",
+    description:
+      "ได้รับการออกแบบใหม่ให้มีสีสันสดใสและอเนกประสงค์ยิ่งขึ้นกว่าครั้งไหนๆ โดยมาในดีไซน์แบบหน้าจอทั้งหมดบวกกับจอภาพ Liquid Retina ขนาด 10.9 นิ้ว และ 4 สีสวยสะดุดตา เรียกว่า iPad เป็นวิธีที่ทรงพลังในการทำนั่นทำนี่ให้เสร็จ สร้างสรรค์ และต่อติดกับทุกเรื่องอยู่เสมอ",
+    stock: 4,
+    brandId: 2,
+    categoryId: 1,
+  },
+  {
+    id: 13,
+    name: "Apple Watch Series 8 GPS 45mm (PRODUCT)RED Aluminium Case with (PRODUCT)RED Sport Band",
+    price: "15900",
+    description:
+      "Apple Watch Series 8 มาพร้อมเซ็นเซอร์และแอปด้านสุขภาพที่ล้ำหน้า คุณจึงวัดอัตราการเต้นของหัวใจและออกซิเจนในเลือด ไปจนถึงติดตามการเปลี่ยนแปลงของอุณหภูมิ เพื่อให้ข้อมูลเชิงลึกที่ล้ำหน้าเกี่ยวกับรอบเดือนของคุณได้ นอกจากนั้นยังมาพร้อมคุณสมบัติการตรวจจับการชนกัน การติดตามระยะของการนอนหลับ และค่าวัดการออกกำลังกายขั้นสูงที่ช่วยให้คุณแอ็คทีฟ มีสุขภาพดี ปลอดภัย และต่อติดอยู่เสมอ",
+    stock: 4,
+    brandId: 2,
+    categoryId: 7,
+  },
+  {
+    id: 14,
+    name: "Apple MacBook Pro 16 : M2 Max chip 12C CPU/38C GPU/32GB/1TB - Space Gray (2023) Eng-Keyboard",
+    price: "124900",
+    description:
+      "สร้างสรรค์ สร้างการเปลี่ยนแปลง สร้างขีดจำกัดใหม่ MacBook Pro อัดฉีดพลังแรงโดยชิป M2 Max จึงเหนือชั้นยิ่งกว่าที่เคยทั้งในด้านขุมพลังและความประหยัดพลังงาน พร้อมให้คุณได้สัมผัสกับประสิทธิภาพชั้นเยี่ยมไม่ว่าจะเสียบหรือไม่เสียบปลั๊ก และวันนี้ยังมีแบตเตอรี่ที่ใช้งานได้นานยิ่งขึ้น พร้อมจอภาพ Liquid Retina XDR อันสวยงามน่าทึ่ง และมีครบทุกพอร์ตที่คุณต้องใช้ นี่แหละคือแล็ปท็อประดับโปรที่ยากจะหาใครเทียบ",
+    stock: 7,
+    brandId: 2,
+    categoryId: 8,
+  },
 ];
 
 exports.brands = [
@@ -128,30 +178,49 @@ exports.categories = [
     id: 6,
     name: "HEADPHONE",
   },
+  {
+    id: 7,
+    name: "SMARTWATCH",
+  },
+  {
+    id: 8,
+    name: "LAPTOP",
+  },
 ];
 exports.users = [
   {
-    id: 1,
-    firstName: "Johny",
-    lastName: "Bravo",
-    phone: "0923456728",
-    email: "johny@gmail.com",
-    password: "$2b$12$XlpxJyn3uEHfpq/0xyO./ekqerEe5hjprxjdp8XrpG1RfqhI0Z3bC",
-    createdAt: "2023-10-14T06:53:48.300Z",
-    address: null,
-    role: "ADMIN",
-  },
-  {
-    id: 2,
-    firstName: "Time",
-    lastName: "Ruchu",
-    phone: "0927354678",
-    email: "time@gmail.com",
-    password: "$2b$12$Q0AT2EK4xUBZDFfe6UkyVuBGlaKlIB/eloYaQbO9ZK/KS3NB8xjbe",
-    createdAt: "2023-10-14T06:54:06.211Z",
-    address: null,
-    role: "CUSTOMER",
-  },
+    "id": 1,
+    "firstName": "Johny",
+    "lastName": "Bravo",
+    "phone": "0923456728",
+    "email": "johny@gmail.com",
+    "password": "$2b$12$XlpxJyn3uEHfpq/0xyO./ekqerEe5hjprxjdp8XrpG1RfqhI0Z3bC",
+    "createdAt": "2023-10-14T06:53:48.300Z",
+    "address": null,
+    "role": "ADMIN"
+},
+{
+    "id": 2,
+    "firstName": "Time",
+    "lastName": "Ruchu",
+    "phone": "0927354678",
+    "email": "time@gmail.com",
+    "password": "$2b$12$Q0AT2EK4xUBZDFfe6UkyVuBGlaKlIB/eloYaQbO9ZK/KS3NB8xjbe",
+    "createdAt": "2023-10-14T06:54:06.211Z",
+    "address": null,
+    "role": "CUSTOMER"
+},
+{
+    "id": 3,
+    "firstName": "Michael",
+    "lastName": "Jackson",
+    "phone": "0923846728",
+    "email": "jack@gmail.com",
+    "password": "$2b$12$KTKzfzNaWFFtXqC1PN/7teOyfSf5dhI.a9K5BgJ/OYdEzKc84rIjy",
+    "createdAt": "2023-10-15T10:05:59.468Z",
+    "address": null,
+    "role": "CUSTOMER"
+}
 ];
 
 exports.productImages = [
@@ -334,5 +403,105 @@ exports.productImages = [
       "id": 41,
       "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697268580/u42vutsd6hb3r5hrjk5d.webp",
       "productId": 9
+  },
+  {
+      "id": 42,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697300591/bzl9kkrgwwhjraa4byjy.webp",
+      "productId": 10
+  },
+  {
+      "id": 43,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697300592/dczg6bxutnpwatnjccuk.webp",
+      "productId": 10
+  },
+  {
+      "id": 44,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697300593/h078wmkrcc8sfse2mvdt.webp",
+      "productId": 10
+  },
+  {
+      "id": 45,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697300594/kberaizuc22wuqsoi7ab.webp",
+      "productId": 10
+  },
+  {
+      "id": 46,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697300673/yaqytpa86injyi4xyzlx.webp",
+      "productId": 11
+  },
+  {
+      "id": 47,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697300675/gw92ocujqsczb4x4hnkf.webp",
+      "productId": 11
+  },
+  {
+      "id": 48,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697300676/zgspmxpxqwhjq3suuso4.webp",
+      "productId": 11
+  },
+  {
+      "id": 49,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697300677/dgxhxh8glkg1t3uujtwu.webp",
+      "productId": 11
+  },
+  {
+      "id": 50,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697300752/mqqlaiqftqqlgmdounph.webp",
+      "productId": 12
+  },
+  {
+      "id": 51,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697300754/dvvqmdsmvuimnrk3waqm.webp",
+      "productId": 12
+  },
+  {
+      "id": 52,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697300755/cqydoxhkonwrab5elgd1.webp",
+      "productId": 12
+  },
+  {
+      "id": 53,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697300757/snl53qko4velybp9nvom.webp",
+      "productId": 12
+  },
+  {
+      "id": 54,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697300829/qqnowglvri4pbah8xlhc.webp",
+      "productId": 13
+  },
+  {
+      "id": 55,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697300830/g9amuydwrxvfusmmmblq.webp",
+      "productId": 13
+  },
+  {
+      "id": 56,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697300832/g1iryc6ix05grtg7gznr.webp",
+      "productId": 13
+  },
+  {
+      "id": 57,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697300833/ueqhlrraumozavtumres.webp",
+      "productId": 13
+  },
+  {
+      "id": 58,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697355828/ma7ylncuaez8zflxizd4.webp",
+      "productId": 14
+  },
+  {
+      "id": 59,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697355828/ezy7mltp6wb9pi19bttx.webp",
+      "productId": 14
+  },
+  {
+      "id": 60,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697355830/th2355tva396fiva8hm6.jpg",
+      "productId": 14
+  },
+  {
+      "id": 61,
+      "imageUrl": "https://res.cloudinary.com/dskp1knm4/image/upload/v1697355831/sroejwetxwakc08yatcg.webp",
+      "productId": 14
   }
 ]

@@ -73,25 +73,87 @@ exports.searchProduct = catchAsync(async (req, res, next) => {
   if (sortBy === "general") orderBy = { id: "asc" };
   else if (sortBy === "price-asc") orderBy = { price: "asc" };
   else if (sortBy === "price-desc") orderBy = { price: "desc" };
+  const brand = await prisma.brand.findFirst({
+    where: { name: searchedTitle },
+  });
+  const where = {
+    OR: [
+      {
+        name: {
+          contains: searchedTitle,
+        },
+      },
+      {
+        description: {
+          contains: searchedTitle,
+        },
+      },
+      {
+        brandId: brand?.id,
+      },
+    ],
+  };
+  const allproducts = await prisma.product.findMany({
+    where: where,
+  });
+
+  const images = await prisma.productImage.findMany({
+    distinct: ["productId"],
+  });
   const products = await prisma.product.findMany({
     take: PRODUCT_PER_PAGE,
     skip: (Number(page) - 1) * PRODUCT_PER_PAGE,
     orderBy: orderBy,
-    where: {
-      OR: [
-        {
-          name: {
-            contains: searchedTitle,
-          },
-        },
-        {
-          description: {
-            contains: searchedTitle,
-          },
-        },
-      ],
+    where: where,
+    include: {
+      brand: true,
     },
   });
 
-  res.status(200).json({ data: products });
+  for (const product of products) {
+    for (const image of images) {
+      if (image.productId === product.id) product.productImage = image.imageUrl;
+      else continue;
+    }
+  }
+
+  res.status(200).json({
+    data: {
+      count: allproducts.length,
+      products,
+    },
+  });
+});
+
+exports.getProduct = catchAsync(async (req, res, next) => {
+  const params = req.params;
+  const productId = Number(params.productId);
+
+  if (!productId)
+    return next(new AppError("productId is required to find product"));
+
+  let product = await prisma.product.findFirst({
+    where: {
+      id: productId,
+    },
+    include:{
+      brand:true
+    }
+  });
+
+  if (!product)
+    return next(new AppError(`There is no product with id ${productId}`));
+
+  const productImages = await prisma.productImage.findMany({
+    where: {
+      productId: productId,
+    },
+    select: {
+      imageUrl: true,
+    },
+  });
+
+  product.productImages = productImages;
+
+  res.status(200).json({ data: { product } });
 });

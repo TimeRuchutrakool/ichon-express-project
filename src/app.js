@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const userRouter = require("./routes/userRoute");
 const productRouter = require("./routes/productRoute");
+const cartRouter = require("./routes/cartRoute");
 const seedRouter = require("./routes/seedRoute");
 const AppError = require("./utils/appError");
 const globaErrorHandler = require("./controllers/errorController");
@@ -12,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/auth", userRouter);
 app.use("/api/product", productRouter);
+app.use("/api/cart", cartRouter);
 app.use('/seed',seedRouter)
 
 app.all("*", (req, res, next) =>

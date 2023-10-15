@@ -17,9 +17,9 @@ exports.signup = catchAsync(async (req, res, next) => {
   const accessToken = await jwt.sign(payload, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRE,
   });
-  delete user.password;
+  
 
-  res.status(201).json({ data: { accessToken, user } });
+  res.status(201).json({ data: { accessToken } });
 });
 
 exports.login = catchAsync(async (req, res, next) => {
