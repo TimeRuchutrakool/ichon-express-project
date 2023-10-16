@@ -3,12 +3,10 @@ const cartController = require("../controllers/cartController");
 const authenticated = require("../middlewares/authenticated");
 const router = express.Router();
 
-router
-  .route("/add/:productId/:quantity")
-  .patch(authenticated, cartController.addProductToCart);
+router.route("/add").patch(authenticated, cartController.addProductToCart);
 
 router
-  .route("/remove/:productId/:quantity")
+  .route("/remove")
   .patch(authenticated, cartController.removeProductFromCart);
 router
   .route("/delete/:productId")
