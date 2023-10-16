@@ -4,7 +4,6 @@ const catchAsync = require("../utils/catchAsync");
 const fs = require("fs/promises");
 const { upload } = require("../utils/cloudinaryServices");
 const { productSchema } = require("../validators/productValidator");
-const { PRODUCT_PER_PAGE } = require("../config/constant");
 
 exports.getTopSalesProducts = catchAsync(async (req, res, next) => {});
 
@@ -68,7 +67,7 @@ exports.addProduct = catchAsync(async (req, res, next) => {
 
 exports.searchProduct = catchAsync(async (req, res, next) => {
   const { searchedTitle } = req.params;
-  const { sortBy, page } = req.query;
+  const { sortBy, page, productPerPage } = req.query;
   let orderBy = {};
   if (sortBy === "general") orderBy = { id: "asc" };
   else if (sortBy === "price-asc") orderBy = { price: "asc" };
@@ -98,8 +97,8 @@ exports.searchProduct = catchAsync(async (req, res, next) => {
   });
 
   const products = await prisma.product.findMany({
-    take: PRODUCT_PER_PAGE,
-    skip: (Number(page) - 1) * PRODUCT_PER_PAGE,
+    take: +productPerPage,
+    skip: (Number(page) - 1) * Number(productPerPage),
     orderBy: orderBy,
     where: where,
     include: {
