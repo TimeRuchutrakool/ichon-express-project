@@ -97,9 +97,6 @@ exports.searchProduct = catchAsync(async (req, res, next) => {
     where: where,
   });
 
-  const images = await prisma.productImage.findMany({
-    distinct: ["productId"],
-  });
   const products = await prisma.product.findMany({
     take: PRODUCT_PER_PAGE,
     skip: (Number(page) - 1) * PRODUCT_PER_PAGE,
@@ -107,15 +104,11 @@ exports.searchProduct = catchAsync(async (req, res, next) => {
     where: where,
     include: {
       brand: true,
+      ProductImage: {
+        distinct: ["productId"],
+      },
     },
   });
-
-  for (const product of products) {
-    for (const image of images) {
-      if (image.productId === product.id) product.productImage = image.imageUrl;
-      else continue;
-    }
-  }
 
   res.status(200).json({
     data: {
@@ -136,9 +129,9 @@ exports.getProduct = catchAsync(async (req, res, next) => {
     where: {
       id: productId,
     },
-    include:{
-      brand:true
-    }
+    include: {
+      brand: true,
+    },
   });
 
   if (!product)
