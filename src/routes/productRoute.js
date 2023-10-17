@@ -16,5 +16,6 @@ router.post(
 router.route('/searchedTitle/:searchedTitle').get(productController.searchProduct)
 router.route('/productId/:productId').get(productController.getProduct)
 router.route("/top-sales-product").get(productController.getTopSalesProducts);
+router.route('/categories').get(productController.getCategories)
 
 module.exports = router;

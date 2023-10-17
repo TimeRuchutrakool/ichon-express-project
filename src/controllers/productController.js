@@ -5,7 +5,18 @@ const fs = require("fs/promises");
 const { upload } = require("../utils/cloudinaryServices");
 const { productSchema } = require("../validators/productValidator");
 
-exports.getTopSalesProducts = catchAsync(async (req, res, next) => {});
+exports.getTopSalesProducts = catchAsync(async (req, res, next) => {
+  const orders = await prisma.order.findMany({
+    include:{
+      OrderItem:{
+        include:{
+          product:true
+        }
+      }
+    }
+  })
+  res.json({ data: orders });
+});
 
 exports.addProduct = catchAsync(async (req, res, next) => {
   const { value, error } = productSchema.validate(req.body);
@@ -130,7 +141,7 @@ exports.getProduct = catchAsync(async (req, res, next) => {
     },
     include: {
       brand: true,
-      WishItem:true
+      WishItem: true,
     },
   });
 
@@ -149,4 +160,20 @@ exports.getProduct = catchAsync(async (req, res, next) => {
   product.productImages = productImages;
 
   res.status(200).json({ data: { product } });
+});
+
+exports.getCategories = catchAsync(async (req, res, next) => {
+  const categories = await prisma.category.findMany({
+    include: {
+      Product: {
+        distinct: ["brandId"],
+        include: {
+          brand: true,
+        },
+      },
+    },
+  });
+  res.json({
+    data: { categories },
+  });
 });
