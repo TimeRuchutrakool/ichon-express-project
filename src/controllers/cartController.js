@@ -29,7 +29,6 @@ exports.addProductToCart = catchAsync(async (req, res, next) => {
   // 2. ถ้าไม่มีก็สร้างขึ้นมาใหม่ quantity 1
   // 3. ถ้ามีแล้วก็ไปบวก quantity เดิมอีก 1
   const { productId, quantity } = req.query;
-  console.log(`quantity ${quantity}`);
   const pid = +productId;
 
   let cart = await prisma.cart.findFirst({

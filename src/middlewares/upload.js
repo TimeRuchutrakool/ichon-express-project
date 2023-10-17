@@ -31,8 +31,3 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({ storage, fileFilter });
 module.exports = upload;
-
-
-// 1.สร้าง product ก่อน + insert into product table
-// 2.upload file รูปภาพ เอา url มา
-// 3.insert into images table แล้วก็ให้อิง FK ที่เป็น productId
