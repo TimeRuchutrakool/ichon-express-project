@@ -130,6 +130,7 @@ exports.getProduct = catchAsync(async (req, res, next) => {
     },
     include: {
       brand: true,
+      WishItem:true
     },
   });
 

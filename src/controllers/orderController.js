@@ -51,6 +51,9 @@ exports.createOrder = catchAsync(async (req, res, next) => {
 
 exports.getOrders = catchAsync(async (req, res, next) => {
   const orders = await prisma.order.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
     where: {
       userId: req.user.id,
     },
