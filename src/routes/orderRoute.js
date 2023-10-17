@@ -4,6 +4,7 @@ const orderController = require("../controllers/orderController");
 const upload = require("../middlewares/upload");
 const router = express.Router();
 
+router.get("/", authenticated, orderController.getOrders);
 router
   .route("/create")
   .post(authenticated, upload.single("slipImage"), orderController.createOrder);

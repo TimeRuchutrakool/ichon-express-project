@@ -25,13 +25,14 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     where: {
       userId: req.user.id,
     },
-    select: {
-      quantity: true,
-      productId: true,
-    },
   });
+  console.log(carts);
   const orderedProductsToCreate = carts.map((cartItem) => {
-    return { ...cartItem, orderId: order.id };
+    return {
+      quantity: cartItem.quantity,
+      productId: cartItem.productId,
+      orderId: order.id,
+    };
   });
 
   // CREATE ORDER ITEM
@@ -46,4 +47,26 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     },
   });
   res.json({ data: orderItems });
+});
+
+exports.getOrders = catchAsync(async (req, res, next) => {
+  const orders = await prisma.order.findMany({
+    where: {
+      userId: req.user.id,
+    },
+    include: {
+      OrderItem: {
+        include: {
+          product: {
+            include: {
+              ProductImage: { distinct: ["productId"] },
+            },
+          },
+        },
+      },
+      status: true,
+    },
+  });
+
+  res.json({ data: { orders } });
 });
