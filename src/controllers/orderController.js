@@ -85,3 +85,32 @@ exports.getOrders = catchAsync(async (req, res, next) => {
 
   res.json({ data: { orders } });
 });
+
+exports.getOrdersForAdmin = catchAsync(async (req, res, next) => {
+  const { statusId } = req.query;
+  const orders = await prisma.order.findMany({
+    where: {
+      statusId: +statusId,
+    },
+  });
+  res.json({ data: orders });
+});
+
+exports.updateStatusOrder = catchAsync(async (req, res, next) => {
+  const { statusId, orderId } = req.body;
+  const order = await prisma.order.findFirst({
+    where: {
+      id: orderId,
+    },
+  });
+  if (!order) return next(new AppError(`Order No.${orderId} is not exists.`));
+  const updatedOrder = await prisma.order.update({
+    where: {
+      id: orderId,
+    },
+    data: {
+      statusId,
+    },
+  });
+  res.json({ data: updatedOrder });
+});
