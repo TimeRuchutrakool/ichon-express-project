@@ -41,7 +41,7 @@ exports.addProduct = catchAsync(async (req, res, next) => {
     },
   });
   // UPLOAD PRODUCT IMAGES
-  if (!req.files) return next("Product image is required");
+  if (!req.files) return next(new AppError("Product image is required"));
 
   const urls = [];
   const files = req.files;
