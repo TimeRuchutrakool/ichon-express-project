@@ -26,7 +26,6 @@ exports.createOrder = catchAsync(async (req, res, next) => {
       userId: req.user.id,
     },
   });
-  console.log(carts);
   const orderedProductsToCreate = carts.map((cartItem) => {
     return {
       quantity: cartItem.quantity,
@@ -34,6 +33,19 @@ exports.createOrder = catchAsync(async (req, res, next) => {
       orderId: order.id,
     };
   });
+  // UPDATE SALES
+  for (const product of orderedProductsToCreate) {
+    await prisma.sales.update({
+      where: {
+        productId: product.productId,
+      },
+      data: {
+        salesAmount: {
+          increment: product.quantity,
+        },
+      },
+    });
+  }
 
   // CREATE ORDER ITEM
   const orderItems = await prisma.orderItem.createMany({

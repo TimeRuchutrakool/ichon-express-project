@@ -9,13 +9,15 @@ router.post(
   "/",
   authenticated,
   adminAuthenticated,
-  upload.array('image'),
-  productController.addProduct,
-  
+  upload.array("image"),
+  productController.addProduct
 );
-router.route('/searchedTitle/:searchedTitle').get(productController.searchProduct)
-router.route('/productId/:productId').get(productController.getProduct)
+router
+  .route("/searchedTitle/:searchedTitle")
+  .get(productController.searchProduct);
+router.route("/productId/:productId").get(productController.getProduct);
 router.route("/top-sales-product").get(productController.getTopSalesProducts);
-router.route('/categories').get(productController.getCategories)
+router.route("/new-arrival").get(productController.getNewArrival);
+router.route("/categories").get(productController.getCategories);
 
 module.exports = router;

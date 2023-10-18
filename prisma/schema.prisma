@@ -91,6 +91,7 @@ model Product {
   price        Decimal        @db.Decimal(10, 2)
   description  String?        @db.LongText
   stock        Int
+  createdAt    DateTime       @default(now()) @map("created_at")
   brand        Brand          @relation(fields: [brandId], references: [id])
   brandId      Int
   category     Category       @relation(fields: [categoryId], references: [id])
@@ -99,6 +100,7 @@ model Product {
   Cart         Cart[]
   OrderItem    OrderItem[]
   ProductImage ProductImage[]
+  Sales        Sales?
 
   @@map("products")
 }
@@ -126,4 +128,13 @@ model Category {
   Product Product[]
 
   @@map("categories")
+}
+
+model Sales {
+  id          Int     @id @default(autoincrement())
+  product     Product @relation(fields: [productId], references: [id])
+  productId   Int     @unique
+  salesAmount Int     @map("sales_amount")
+
+  @@map("sales")
 }

@@ -576,3 +576,71 @@ exports.status = [
     name: "คำสั่งซื้อถูกยกเลิก",
   },
 ];
+
+exports.sales = [
+  {
+    id: 1,
+    productId: 2,
+    salesAmount: 0,
+  },
+  {
+    id: 2,
+    productId: 3,
+    salesAmount: 0,
+  },
+  {
+    id: 3,
+    productId: 4,
+    salesAmount: 0,
+  },
+  {
+    id: 4,
+    productId: 5,
+    salesAmount: 0,
+  },
+  {
+    id: 5,
+    productId: 6,
+    salesAmount: 0,
+  },
+  {
+    id: 6,
+    productId: 7,
+    salesAmount: 0,
+  },
+  {
+    id: 7,
+    productId: 8,
+    salesAmount: 0,
+  },
+  {
+    id: 8,
+    productId: 9,
+    salesAmount: 0,
+  },
+  {
+    id: 9,
+    productId: 10,
+    salesAmount: 0,
+  },
+  {
+    id: 10,
+    productId: 11,
+    salesAmount: 0,
+  },
+  {
+    id: 11,
+    productId: 12,
+    salesAmount: 0,
+  },
+  {
+    id: 12,
+    productId: 13,
+    salesAmount: 0,
+  },
+  {
+    id: 13,
+    productId: 14,
+    salesAmount: 0,
+  },
+];

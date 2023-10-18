@@ -5,19 +5,6 @@ const fs = require("fs/promises");
 const { upload } = require("../utils/cloudinaryServices");
 const { productSchema } = require("../validators/productValidator");
 
-exports.getTopSalesProducts = catchAsync(async (req, res, next) => {
-  const orders = await prisma.order.findMany({
-    include:{
-      OrderItem:{
-        include:{
-          product:true
-        }
-      }
-    }
-  })
-  res.json({ data: orders });
-});
-
 exports.addProduct = catchAsync(async (req, res, next) => {
   const { value, error } = productSchema.validate(req.body);
   //   CHECK BRAND AND CATEGORY IF EXISTS
@@ -45,6 +32,12 @@ exports.addProduct = catchAsync(async (req, res, next) => {
       stock: value.stock,
       brandId: brand.id,
       categoryId: category.id,
+    },
+  });
+  await prisma.sales.create({
+    data: {
+      productId: product.id,
+      salesAmount: 0,
     },
   });
   // UPLOAD PRODUCT IMAGES
@@ -75,7 +68,7 @@ exports.addProduct = catchAsync(async (req, res, next) => {
     },
   });
 });
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 exports.searchProduct = catchAsync(async (req, res, next) => {
   const { searchedTitle } = req.params;
   const { sortBy, page, productPerPage } = req.query;
@@ -127,7 +120,7 @@ exports.searchProduct = catchAsync(async (req, res, next) => {
     },
   });
 });
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 exports.getProduct = catchAsync(async (req, res, next) => {
   const params = req.params;
   const productId = Number(params.productId);
@@ -161,7 +154,7 @@ exports.getProduct = catchAsync(async (req, res, next) => {
 
   res.status(200).json({ data: { product } });
 });
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 exports.getCategories = catchAsync(async (req, res, next) => {
   const categories = await prisma.category.findMany({
     include: {
@@ -175,5 +168,48 @@ exports.getCategories = catchAsync(async (req, res, next) => {
   });
   res.json({
     data: { categories },
+  });
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+exports.getTopSalesProducts = catchAsync(async (req, res, next) => {
+  const sales = await prisma.sales.findMany({
+    take: 10,
+    orderBy: {
+      salesAmount: "desc",
+    },
+    include: {
+      product: {
+        include: {
+          ProductImage: {
+            distinct: ["productId"],
+          },
+          brand: true,
+        },
+      },
+    },
+  });
+  res.json({ data: sales });
+});
+
+exports.getNewArrival = catchAsync(async (req, res, next) => {
+  const products = await prisma.product.findMany({
+    take: 10,
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      ProductImage: {
+        distinct: ["productId"],
+      },
+      brand: true,
+    },
+  });
+
+  const productsToShow = products.map((product) => {
+    return { product: product };
+  });
+
+  res.json({
+    data: productsToShow,
   });
 });

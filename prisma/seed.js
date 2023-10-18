@@ -6,6 +6,7 @@ const {
   users,
   productImages,
   status,
+  sales,
 } = require("./data");
 
 const prisma = new PrismaClient();
@@ -16,6 +17,7 @@ async function main() {
   await prisma.category.createMany({ data: categories });
   await prisma.user.createMany({ data: users });
   await prisma.product.createMany({ data: products });
+  await prisma.sales.createMany({ data: sales });
   await prisma.productImage.createMany({ data: productImages });
 }
 
