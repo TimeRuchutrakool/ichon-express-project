@@ -219,9 +219,14 @@ exports.getNewArrival = catchAsync(async (req, res, next) => {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 exports.getAllProducts = catchAsync(async (req, res, next) => {
   const products = await prisma.product.findMany({
-    orderBy: {
-      updatedAt: "desc",
-    },
+    orderBy: [
+      {
+        updatedAt: "desc",
+      },
+      {
+        createdAt: "desc",
+      },
+    ],
     include: { brand: true, category: true },
   });
 

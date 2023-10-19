@@ -92,6 +92,13 @@ exports.getOrdersForAdmin = catchAsync(async (req, res, next) => {
     where: {
       statusId: +statusId,
     },
+    include: {
+      OrderItem: {
+        include: {
+          product: true,
+        },
+      },
+    },
   });
   res.json({ data: orders });
 });
