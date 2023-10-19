@@ -9,7 +9,6 @@ exports.signup = catchAsync(async (req, res, next) => {
   const { value, error } = signUpSchema.validate(req.body);
   if (error) return next(new AppError(error.message, 400));
   value.password = await bcrypt.hash(value.password, 12);
-
   const user = await prisma.user.create({
     data: value,
   });
@@ -17,7 +16,6 @@ exports.signup = catchAsync(async (req, res, next) => {
   const accessToken = await jwt.sign(payload, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRE,
   });
-  
 
   res.status(201).json({ data: { accessToken } });
 });
@@ -37,4 +35,19 @@ exports.login = catchAsync(async (req, res, next) => {
   });
 
   res.status(200).json({ data: { accessToken } });
+});
+
+exports.signupForAdmin = catchAsync(async (req, res, next) => {
+  const { value, error } = signUpSchema.validate(req.body);
+  if (error) return next(new AppError(error.message, 400));
+  value.password = await bcrypt.hash(value.password, 12);
+  const user = await prisma.user.create({
+    data: { ...value, role: "ADMIN" },
+  });
+  const payload = { userId: user.id };
+  const accessToken = await jwt.sign(payload, process.env.JWT_SECRET_KEY, {
+    expiresIn: process.env.JWT_EXPIRE,
+  });
+
+  res.status(201).json({ data: { accessToken } });
 });

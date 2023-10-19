@@ -219,6 +219,9 @@ exports.getNewArrival = catchAsync(async (req, res, next) => {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 exports.getAllProducts = catchAsync(async (req, res, next) => {
   const products = await prisma.product.findMany({
+    orderBy: {
+      updatedAt: "desc",
+    },
     include: { brand: true, category: true },
   });
 
@@ -304,4 +307,27 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
     });
   }
   res.json({ data: updatedProduct });
+});
+
+exports.deleteProduct = catchAsync(async (req, res, next) => {
+  const { productId } = req.query;
+  const pid = +productId;
+  // DELETE IMAGE
+  await prisma.productImage.deleteMany({
+    where: {
+      productId: pid,
+    },
+  });
+  await prisma.sales.deleteMany({
+    where: {
+      productId: pid,
+    },
+  });
+  await prisma.product.delete({
+    where: {
+      id: pid,
+    },
+  });
+  // DELETE PRODUCT
+  res.json({ data: null });
 });

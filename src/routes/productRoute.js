@@ -27,6 +27,7 @@ router
     adminAuthenticated,
     upload.array("image"),
     productController.updateProduct
-  );
+  )
+  .delete(authenticated, adminAuthenticated, productController.deleteProduct);
 
 module.exports = router;
