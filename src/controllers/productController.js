@@ -4,6 +4,9 @@ const catchAsync = require("../utils/catchAsync");
 const fs = require("fs/promises");
 const { upload } = require("../utils/cloudinaryServices");
 const { productSchema } = require("../validators/productValidator");
+const {
+  updatedProductSchema,
+} = require("../validators/updatedProductValidator");
 
 exports.addProduct = catchAsync(async (req, res, next) => {
   const { value, error } = productSchema.validate(req.body);
@@ -68,7 +71,7 @@ exports.addProduct = catchAsync(async (req, res, next) => {
     },
   });
 });
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 exports.searchProduct = catchAsync(async (req, res, next) => {
   const { searchedTitle } = req.params;
   const { sortBy, page, productPerPage } = req.query;
@@ -120,7 +123,7 @@ exports.searchProduct = catchAsync(async (req, res, next) => {
     },
   });
 });
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 exports.getProduct = catchAsync(async (req, res, next) => {
   const params = req.params;
   const productId = Number(params.productId);
@@ -154,7 +157,7 @@ exports.getProduct = catchAsync(async (req, res, next) => {
 
   res.status(200).json({ data: { product } });
 });
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 exports.getCategories = catchAsync(async (req, res, next) => {
   const categories = await prisma.category.findMany({
     include: {
@@ -170,7 +173,7 @@ exports.getCategories = catchAsync(async (req, res, next) => {
     data: { categories },
   });
 });
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 exports.getTopSalesProducts = catchAsync(async (req, res, next) => {
   const sales = await prisma.sales.findMany({
     take: 10,
@@ -190,7 +193,7 @@ exports.getTopSalesProducts = catchAsync(async (req, res, next) => {
   });
   res.json({ data: sales });
 });
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 exports.getNewArrival = catchAsync(async (req, res, next) => {
   const products = await prisma.product.findMany({
     take: 10,
@@ -204,7 +207,7 @@ exports.getNewArrival = catchAsync(async (req, res, next) => {
       brand: true,
     },
   });
-
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const productsToShow = products.map((product) => {
     return { product: product };
   });
@@ -212,4 +215,93 @@ exports.getNewArrival = catchAsync(async (req, res, next) => {
   res.json({
     data: productsToShow,
   });
+});
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+exports.getAllProducts = catchAsync(async (req, res, next) => {
+  const products = await prisma.product.findMany({
+    include: { brand: true, category: true },
+  });
+
+  // SHAPING
+  const data = products.map((product) => {
+    return {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      stock: product.stock,
+      brandTitle: product.brand.name,
+      categoryTitle: product.category.name,
+    };
+  });
+
+  res.json({
+    data: { products: data },
+  });
+});
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+exports.updateProduct = catchAsync(async (req, res, next) => {
+  const pid = +req.body.id;
+  delete req.body.id;
+  const { value, error } = updatedProductSchema.validate(req.body);
+  if (error) return next(new AppError(error));
+  // IF USER SEND BRAND AND CATEGORY
+  if (value.brandTitle) {
+    let brand = await prisma.brand.findFirst({
+      where: { name: value.brandTitle.toUpperCase() },
+    });
+    if (!brand)
+      brand = await prisma.brand.create({
+        data: { name: value.brandTitle.toUpperCase() },
+      });
+    delete value.brandTitle;
+    value.brandId = brand.id;
+  }
+  if (value.categoryTitle) {
+    let category = await prisma.category.findFirst({
+      where: { name: value.categoryTitle.toUpperCase() },
+    });
+    if (!category)
+      category = await prisma.category.create({
+        data: { name: value.categoryTitle.toUpperCase() },
+      });
+    delete value.categoryTitle;
+    value.categoryId = category.id;
+  }
+  console.log(value);
+  const updatedProduct = await prisma.product.update({
+    where: {
+      id: pid,
+    },
+    data: { ...value, updatedAt: new Date() },
+  });
+
+  // IF THERE IS ANY FILE WITH BODY
+  if (req.files) {
+    await prisma.productImage.deleteMany({
+      where: {
+        productId: pid,
+      },
+    });
+
+    const urls = [];
+    const files = req.files;
+    for (const file of files) {
+      const { path } = file;
+      const url = await upload(path);
+      urls.push(url);
+      fs.unlink(path);
+    }
+
+    const images = [];
+    for (const image of urls) {
+      images.push({ imageUrl: image, productId: pid });
+    }
+
+    //   CREATE PRODUCT IMAGE
+    await prisma.productImage.createMany({
+      data: images,
+    });
+  }
+  res.json({ data: updatedProduct });
 });

@@ -19,5 +19,14 @@ router.route("/productId/:productId").get(productController.getProduct);
 router.route("/top-sales-product").get(productController.getTopSalesProducts);
 router.route("/new-arrival").get(productController.getNewArrival);
 router.route("/categories").get(productController.getCategories);
+router
+  .route("/admin")
+  .get(authenticated, adminAuthenticated, productController.getAllProducts)
+  .patch(
+    authenticated,
+    adminAuthenticated,
+    upload.array("image"),
+    productController.updateProduct
+  );
 
 module.exports = router;

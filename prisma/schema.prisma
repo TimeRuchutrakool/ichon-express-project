@@ -92,6 +92,7 @@ model Product {
   description  String?        @db.LongText
   stock        Int
   createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime?      @map("updated_at")
   brand        Brand          @relation(fields: [brandId], references: [id])
   brandId      Int
   category     Category       @relation(fields: [categoryId], references: [id])
