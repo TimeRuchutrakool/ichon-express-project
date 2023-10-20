@@ -10,7 +10,14 @@ router
   .route("/create")
   .post(authenticated, upload.single("slipImage"), orderController.createOrder);
 
-  router.route('/admin').get(authenticated,adminAuthenticated,orderController.getOrdersForAdmin)
-  router.route('/admin').patch(authenticated,adminAuthenticated,orderController.updateStatusOrder)
+router
+  .route("/admin")
+  .get(authenticated, adminAuthenticated, orderController.getOrdersForAdmin);
+router
+  .route("/admin")
+  .patch(authenticated, adminAuthenticated, orderController.updateStatusOrder);
+router
+  .route("/admin/orderCount")
+  .get(authenticated, adminAuthenticated, orderController.getOrderCount);
 
 module.exports = router;

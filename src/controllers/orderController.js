@@ -1,3 +1,4 @@
+const { type } = require("os");
 const prisma = require("../models/prisma");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
@@ -93,6 +94,7 @@ exports.getOrdersForAdmin = catchAsync(async (req, res, next) => {
       statusId: +statusId,
     },
     include: {
+      user: true,
       OrderItem: {
         include: {
           product: true,
@@ -100,7 +102,34 @@ exports.getOrdersForAdmin = catchAsync(async (req, res, next) => {
       },
     },
   });
-  res.json({ data: orders });
+  const data = orders.map((order) => {
+    return {
+      id: order.id,
+      slipUrl: order.slipUrl,
+      createdAt: order.createdAt,
+      statusId: order.statusId,
+      user: {
+        id: order.user.id,
+        firstName: order.user.firstName,
+        lastName: order.user.lastName,
+        phone: order.user.phone,
+        email: order.user.email,
+        address: order.user.address,
+      },
+      products: order.OrderItem.map((product) => {
+        return {
+          id: product.id,
+          quantity: product.quantity,
+          name: product.product.name,
+          price: product.product.price,
+        };
+      }),
+      total: order.OrderItem.reduce((total, product) => {
+        return total + Number(product.product.price);
+      }, 0),
+    };
+  });
+  res.json({ data: data });
 });
 
 exports.updateStatusOrder = catchAsync(async (req, res, next) => {
@@ -120,4 +149,22 @@ exports.updateStatusOrder = catchAsync(async (req, res, next) => {
     },
   });
   res.json({ data: updatedOrder });
+});
+
+exports.getOrderCount = catchAsync(async (req, res, next) => {
+  let orders =
+    await prisma.$queryRaw`SELECT CAST(created_at AS DATE) AS createdAt,COUNT(*) AS orderCount FROM orders GROUP BY CAST(created_at AS DATE)`;
+  orders = orders.map((order) => {
+    return {
+      createdAt: order.createdAt,
+      orderCount: Number(order.orderCount),
+    };
+  });
+  const date = [];
+  const count = [];
+  orders.forEach((order) => {
+    date.push(order.createdAt);
+    count.push(order.orderCount);
+  });
+  res.json({ data: { date: date, count } });
 });
