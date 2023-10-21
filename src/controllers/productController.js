@@ -30,6 +30,7 @@ exports.addProduct = catchAsync(async (req, res, next) => {
   const product = await prisma.product.create({
     data: {
       name: value.name,
+      shortName: value.shortName,
       price: value.price,
       description: value.description,
       stock: value.stock,
@@ -86,6 +87,11 @@ exports.searchProduct = catchAsync(async (req, res, next) => {
     OR: [
       {
         name: {
+          contains: searchedTitle,
+        },
+      },
+      {
+        shortName: {
           contains: searchedTitle,
         },
       },
@@ -161,16 +167,22 @@ exports.getProduct = catchAsync(async (req, res, next) => {
 exports.getCategories = catchAsync(async (req, res, next) => {
   const categories = await prisma.category.findMany({
     include: {
-      Product: {
-        distinct: ["brandId"],
-        include: {
-          brand: true,
-        },
-      },
+      Product: true,
     },
   });
+
+  const data = categories.map((category) => {
+    return {
+      id: category.id,
+      name: category.name,
+      products: category.Product.map((product) => {
+        return { id: product.id, name: product.shortName };
+      }),
+    };
+  });
+
   res.json({
-    data: { categories },
+    data: { categories: data },
   });
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -235,6 +247,7 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
     return {
       id: product.id,
       name: product.name,
+      shortName: product.shortName,
       price: product.price,
       description: product.description,
       stock: product.stock,
@@ -276,16 +289,14 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
     delete value.categoryTitle;
     value.categoryId = category.id;
   }
-  console.log(value);
   const updatedProduct = await prisma.product.update({
     where: {
       id: pid,
     },
     data: { ...value, updatedAt: new Date() },
   });
-
   // IF THERE IS ANY FILE WITH BODY
-  if (req.files) {
+  if (req.files.length !== 0) {
     await prisma.productImage.deleteMany({
       where: {
         productId: pid,

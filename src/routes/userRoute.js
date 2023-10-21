@@ -15,6 +15,6 @@ router.post(
 );
 
 router.get("/me", authenticated, userController.getMe);
-router.route("/edit").patch(authenticated, userController.editUser);
+router.route("/edit").put(authenticated, userController.editUser);
 
 module.exports = router;

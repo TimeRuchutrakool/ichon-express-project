@@ -153,7 +153,7 @@ exports.updateStatusOrder = catchAsync(async (req, res, next) => {
 
 exports.getOrderCount = catchAsync(async (req, res, next) => {
   let orders =
-    await prisma.$queryRaw`SELECT CAST(created_at AS DATE) AS createdAt,COUNT(*) AS orderCount FROM orders GROUP BY CAST(created_at AS DATE)`;
+    await prisma.$queryRaw`SELECT CAST(created_at AS DATE) AS createdAt,COUNT(*) AS orderCount FROM orders GROUP BY CAST(created_at AS DATE) ORDER BY CAST(created_at AS DATE) DESC LIMIT 7`;
   orders = orders.map((order) => {
     return {
       createdAt: order.createdAt,

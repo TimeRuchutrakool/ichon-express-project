@@ -2,6 +2,7 @@ const Joi = require("joi");
 
 const updatedProductSchema = Joi.object({
   name: Joi.string().trim(),
+  shortName: Joi.string().trim(),
   price: Joi.number(),
   description: Joi.string(),
   stock: Joi.number().integer(),

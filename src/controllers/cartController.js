@@ -25,9 +25,7 @@ exports.fetchCart = catchAsync(async (req, res, next) => {
 });
 
 exports.addProductToCart = catchAsync(async (req, res, next) => {
-  // 1. check ก่อนว่ามี cart ไหนที่มร userId กับ productId ด้วยกันบ้างมั้ย
-  // 2. ถ้าไม่มีก็สร้างขึ้นมาใหม่ quantity 1
-  // 3. ถ้ามีแล้วก็ไปบวก quantity เดิมอีก 1
+
   const { productId, quantity } = req.query;
   const pid = +productId;
 
@@ -75,8 +73,7 @@ exports.addProductToCart = catchAsync(async (req, res, next) => {
 });
 
 exports.removeProductFromCart = catchAsync(async (req, res, next) => {
-  // 1. check ก่อนว่ามี cart ไหนที่มร userId กับ productId ด้วยกันบ้างมั้ย
-  // 2. ถ้ามีแล้วก็ไปลบ quantity เดิม 1 แต่ถ้า quantity = 0 ก็ให้ลบ cartId นี้ไปเลย
+
   const { productId } = req.query;
   const pid = Number(productId);
   let cart = await prisma.cart.findFirst({
