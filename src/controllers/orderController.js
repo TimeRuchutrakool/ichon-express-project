@@ -12,6 +12,36 @@ exports.createOrder = catchAsync(async (req, res, next) => {
   const path = req.file.path;
   const url = await upload(path);
   fs.unlink(path);
+
+  //   GET CART
+  const carts = await prisma.cart.findMany({
+    where: {
+      userId: req.user.id,
+    },
+    include: {
+      product: true,
+    },
+  });
+
+  // REDUCE STOCK
+  for (const cartItem of carts) {
+    if (cartItem.quantity > cartItem.product.stock)
+      return next(
+        new AppError("Product in inventory is not enough for this order")
+      );
+    else {
+      await prisma.product.update({
+        where: {
+          id: cartItem.productId,
+        },
+        data: {
+          stock: {
+            decrement: cartItem.quantity,
+          },
+        },
+      });
+    }
+  }
   // CREATE ORDER
   const order = await prisma.order.create({
     data: {
@@ -21,12 +51,6 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     },
   });
 
-  //   GET CART
-  const carts = await prisma.cart.findMany({
-    where: {
-      userId: req.user.id,
-    },
-  });
   const orderedProductsToCreate = carts.map((cartItem) => {
     return {
       quantity: cartItem.quantity,
@@ -59,6 +83,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
       userId: req.user.id,
     },
   });
+
   res.json({ data: orderItems });
 });
 
@@ -84,7 +109,25 @@ exports.getOrders = catchAsync(async (req, res, next) => {
     },
   });
 
-  res.json({ data: { orders } });
+  const data = orders.map((order) => {
+    return {
+      id: order.id,
+      createdAt: order.createdAt,
+      statusId: order.statusId,
+      statusName: order.status.name,
+      products: order.OrderItem.map((product) => {
+        return {
+          id: product.productId,
+          quantity: product.quantity,
+          name: product.product.name,
+          price: product.product.price,
+          imageUrl: product.product.ProductImage[0].imageUrl,
+        };
+      }),
+    };
+  });
+
+  res.json({ data });
 });
 
 exports.getOrdersForAdmin = catchAsync(async (req, res, next) => {

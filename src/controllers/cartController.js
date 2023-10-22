@@ -21,11 +21,20 @@ exports.fetchCart = catchAsync(async (req, res, next) => {
     (acc, cur) => acc + cur.quantity * Number(cur.product.price),
     0
   );
-  res.json({ data: { total, cart } });
+  const data = cart.map((product) => {
+    return {
+      id: product.productId,
+      quantity: product.quantity,
+      name: product.product.name,
+      price: product.product.price,
+      stock: product.product.stock,
+      imageUrl: product.product.ProductImage[0].imageUrl,
+    };
+  });
+  res.json({ data: { total, cart: data } });
 });
 
 exports.addProductToCart = catchAsync(async (req, res, next) => {
-
   const { productId, quantity } = req.query;
   const pid = +productId;
 
@@ -73,7 +82,6 @@ exports.addProductToCart = catchAsync(async (req, res, next) => {
 });
 
 exports.removeProductFromCart = catchAsync(async (req, res, next) => {
-
   const { productId } = req.query;
   const pid = Number(productId);
   let cart = await prisma.cart.findFirst({

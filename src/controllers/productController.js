@@ -122,10 +122,21 @@ exports.searchProduct = catchAsync(async (req, res, next) => {
     },
   });
 
+  const data = products.map((product) => {
+    return {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      brand: product.brand.name,
+      imageUrl: product.ProductImage[0].imageUrl,
+    };
+  });
+
   res.status(200).json({
     data: {
       count: allproducts.length,
-      products,
+      products: data,
     },
   });
 });
@@ -144,24 +155,25 @@ exports.getProduct = catchAsync(async (req, res, next) => {
     include: {
       brand: true,
       WishItem: true,
+      ProductImage: true,
     },
   });
-
   if (!product)
     return next(new AppError(`There is no product with id ${productId}`));
+  const data = {
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    description: product.description,
+    stock: product.stock,
+    brand: product.brand.name,
+    wish: product.WishItem,
+    images: product.ProductImage.map((image) => {
+      return { id: image.id, imageUrl: image.imageUrl };
+    }),
+  };
 
-  const productImages = await prisma.productImage.findMany({
-    where: {
-      productId: productId,
-    },
-    select: {
-      imageUrl: true,
-    },
-  });
-
-  product.productImages = productImages;
-
-  res.status(200).json({ data: { product } });
+  res.status(200).json({ data });
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 exports.getCategories = catchAsync(async (req, res, next) => {
@@ -203,7 +215,19 @@ exports.getTopSalesProducts = catchAsync(async (req, res, next) => {
       },
     },
   });
-  res.json({ data: sales });
+
+  const data = sales.map((product) => {
+    return {
+      id: product.productId,
+      name: product.product.name,
+      price: product.product.price,
+      description: product.product.description,
+      brand: product.product.brand.name,
+      imageUrl: product.product.ProductImage[0].imageUrl,
+    };
+  });
+
+  res.json({ data: data });
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 exports.getNewArrival = catchAsync(async (req, res, next) => {
@@ -219,13 +243,19 @@ exports.getNewArrival = catchAsync(async (req, res, next) => {
       brand: true,
     },
   });
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const productsToShow = products.map((product) => {
-    return { product: product };
+  const data = products.map((product) => {
+    return {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      brand: product.brand.name,
+      imageUrl: product.ProductImage[0].imageUrl,
+    };
   });
 
   res.json({
-    data: productsToShow,
+    data: data,
   });
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -325,25 +355,3 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
   res.json({ data: updatedProduct });
 });
 
-exports.deleteProduct = catchAsync(async (req, res, next) => {
-  const { productId } = req.query;
-  const pid = +productId;
-  // DELETE IMAGE
-  await prisma.productImage.deleteMany({
-    where: {
-      productId: pid,
-    },
-  });
-  await prisma.sales.deleteMany({
-    where: {
-      productId: pid,
-    },
-  });
-  await prisma.product.delete({
-    where: {
-      id: pid,
-    },
-  });
-  // DELETE PRODUCT
-  res.json({ data: null });
-});

@@ -17,7 +17,15 @@ exports.getWishlist = catchAsync(async (req, res, next) => {
       },
     },
   });
-  res.json({ data: { wishes } });
+  const data = wishes.map((product) => {
+    return {
+      id: product.productId,
+      name: product.product.name,
+      price: product.product.price,
+      imageUrl: product.product.ProductImage[0].imageUrl,
+    };
+  });
+  res.json({ data });
 });
 
 exports.addWishItem = catchAsync(async (req, res, next) => {
